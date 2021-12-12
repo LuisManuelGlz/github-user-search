@@ -78,11 +78,11 @@ function App() {
   }, [darkMode]);
 
   return (
-    <div className="flex flex-col gap-7 items-center h-screen dark:bg-gray-900">
+    <div className="flex flex-col gap-7 items-center h-screen dark:bg-gray-900 transition-colors duration-700">
       <nav className="flex items-center justify-between w-full p-7">
         <div className="flex items-center gap-2">
-          <GitHubLogo className="w-10 h-10 fill-current text-black dark:text-white" />
-          <div className="text-2xl font-light dark:text-white">
+          <GitHubLogo className="w-10 h-10 fill-current text-black dark:text-white transition-colors duration-700" />
+          <div className="text-2xl font-light dark:text-white transition-colors duration-700">
             GitHub Search
           </div>
         </div>
@@ -100,24 +100,24 @@ function App() {
       </nav>
 
       <form
-        className="flex items-center bg-blue-600 pl-3 px-1 py-1 rounded-full shadow-xl"
+        className="flex items-center bg-white dark:bg-blue-600 border-2 dark:border-0 border-blue-600 pl-3 px-1 py-1 rounded-full shadow-xl transition-colors duration-700"
         onSubmit={onSubmit}
       >
         <input
-          className="bg-transparent text-white placeholder-gray-50 outline-none"
+          className="bg-transparent text-blue-600 dark:text-white placeholder-gray-500 dark:placeholder-gray-50 outline-none transition-colors duration-700"
           autoFocus
           type="search"
           required
           placeholder="Search GitHub users"
           onChange={onChange}
         />
-        <button className="bg-white p-2 rounded-full" type="submit">
-          <SearchIcon className="w-4 h-4 fill-current text-blue-600" />
+        <button className="bg-blue-600 dark:bg-white p-2 rounded-full transition-colors duration-700" type="submit">
+          <SearchIcon className="w-4 h-4 fill-current text-white dark:text-blue-600 transition-colors duration-700" />
         </button>
       </form>
 
       {user && (
-        <div className="rounded-lg shadow-blue w-max max-w-5xl dark:bg-gray-800">
+        <div className="rounded-lg shadow-blue w-max max-w-5xl dark:bg-gray-800 transition-colors duration-700">
           <div className="flex p-10">
             <a
               href={`https://github.com/${user.login}`}
@@ -138,7 +138,7 @@ function App() {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <div className="group-hover:underline dark:text-white">
+                <div className="group-hover:underline dark:text-white transition-colors duration-700">
                   {user.login}
                 </div>
                 <div className="font-bold text-xl text-blue-600">
@@ -147,7 +147,7 @@ function App() {
               </a>
 
               {user.bio && (
-                <p className="dark:text-white">
+                <p className="dark:text-white transition-colors duration-700">
                   {user.bio}
                   {/* Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos
                 iure provident aperiam, eaque cupiditate ipsum reiciendis sequi
@@ -156,7 +156,7 @@ function App() {
                 </p>
               )}
 
-              <div className="flex gap-4 dark:text-white">
+              <div className="flex gap-4 dark:text-white transition-colors duration-700">
                 {user.location && (
                   <div className="flex items-center gap-1">
                     <LocationIcon className="w-4 h-4 fill-current text-blue-600" />
@@ -217,10 +217,10 @@ function App() {
               target="_blank"
               rel="noopener noreferrer"
             >
-              <div className="font-bold text-gray-700 dark:text-white">
+              <div className="font-bold text-gray-700 dark:text-white transition-colors duration-700">
                 {user.public_repos}
               </div>
-              <div className="uppercase text-gray-600 dark:text-gray-400">
+              <div className="uppercase text-gray-600 dark:text-gray-400 transition-colors duration-700">
                 Repos
               </div>
             </a>
@@ -230,10 +230,10 @@ function App() {
               target="_blank"
               rel="noopener noreferrer"
             >
-              <div className="font-bold text-gray-700 dark:text-white">
+              <div className="font-bold text-gray-700 dark:text-white transition-colors duration-700">
                 {user.following}
               </div>
-              <div className="uppercase text-gray-600 dark:text-gray-400">
+              <div className="uppercase text-gray-600 dark:text-gray-400 transition-colors duration-700">
                 Following
               </div>
             </a>
@@ -243,10 +243,10 @@ function App() {
               target="_blank"
               rel="noopener noreferrer"
             >
-              <div className="font-bold text-gray-700 dark:text-white">
+              <div className="font-bold text-gray-700 dark:text-white transition-colors duration-700">
                 {user.followers}
               </div>
-              <div className="uppercase text-gray-600 dark:text-gray-400">
+              <div className="uppercase text-gray-600 dark:text-gray-400 transition-colors duration-700">
                 Followers
               </div>
             </a>
