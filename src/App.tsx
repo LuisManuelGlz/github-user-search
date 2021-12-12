@@ -1,24 +1,258 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { FormEvent, useEffect, useState } from 'react';
 import './App.css';
+import { ReactComponent as GitHubLogo } from './assets/icons/logo-github.svg';
+import { ReactComponent as SearchIcon } from './assets/icons/search.svg';
+import { ReactComponent as LocationIcon } from './assets/icons/location.svg';
+import { ReactComponent as TwitterLogo } from './assets/icons/logo-twitter.svg';
+import { ReactComponent as GlobeIcon } from './assets/icons/globe.svg';
+import { ReactComponent as BusinessIcon } from './assets/icons/business.svg';
+import { User } from './types/user';
 
 function App() {
+  const [user, setUser] = useState<User | null>(null);
+  const [username, setUsername] = useState<string>('');
+  const [loading, setLoading] = useState<boolean>(false);
+  const [darkMode, setDarkMode] = useState<boolean>(false);
+
+  const fetchUserByUsername = async (username: string) => {
+    try {
+      setLoading(true);
+      const response = await fetch(`https://api.github.com/users/${username}`);
+      const user = await response.json();
+      setUser(user);
+      document.title = `${user.name} - GitHub Search`;
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const toggleDarkMode = () => {
+    setDarkMode(!darkMode);
+    if (darkMode) {
+      localStorage.theme = 'light';
+    } else {
+      localStorage.theme = 'dark';
+    }
+  };
+
+  const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    await fetchUserByUsername(username);
+  };
+
+  const onChange = (e: FormEvent<HTMLInputElement>) => {
+    const { value } = e.currentTarget;
+    setUsername(value);
+  };
+
+  const getRepositoriesUrl = (user: User) => {
+    return `${user.html_url}?tab=repositories`;
+  };
+
+  const getFollowersUrl = (user: User) => {
+    return `${user.html_url}?tab=followers`;
+  };
+
+  const getFollowingUrl = (user: User) => {
+    return `${user.html_url}?tab=following`;
+  };
+
+  useEffect(() => {
+    fetchUserByUsername('luismanuelglz');
+  }, []);
+
+  useEffect(() => {
+    if (
+      localStorage.theme === 'dark' ||
+      (!('theme' in localStorage) &&
+        window.matchMedia('(prefers-color-scheme: dark)').matches)
+    ) {
+      document.documentElement.classList.add('dark');
+      setDarkMode(true);
+    } else {
+      document.documentElement.classList.remove('dark');
+      setDarkMode(false);
+    }
+  }, [darkMode]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="flex flex-col gap-7 items-center h-screen dark:bg-gray-900">
+      <nav className="flex items-center justify-between w-full p-7">
+        <div className="flex items-center gap-2">
+          <GitHubLogo className="w-10 h-10 fill-current text-black dark:text-white" />
+          <div className="text-2xl font-light dark:text-white">
+            GitHub Search
+          </div>
+        </div>
+
+        <div>
+          <label htmlFor="checkbox">
+            <input
+              type="checkbox"
+              id="checkbox"
+              onChange={toggleDarkMode}
+              checked={darkMode}
+            />
+          </label>
+        </div>
+      </nav>
+
+      <form
+        className="flex items-center bg-blue-600 pl-3 px-1 py-1 rounded-full shadow-xl"
+        onSubmit={onSubmit}
+      >
+        <input
+          className="bg-transparent text-white placeholder-gray-50 outline-none"
+          autoFocus
+          type="search"
+          required
+          placeholder="Search GitHub users"
+          onChange={onChange}
+        />
+        <button className="bg-white p-2 rounded-full" type="submit">
+          <SearchIcon className="w-4 h-4 fill-current text-blue-600" />
+        </button>
+      </form>
+
+      {user && (
+        <div className="rounded-lg shadow-blue w-max max-w-5xl dark:bg-gray-800">
+          <div className="flex p-10">
+            <a
+              href={`https://github.com/${user.login}`}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <img
+                className="rounded-full border-4 border-blue-600 w-40 h-40"
+                src={user.avatar_url}
+                alt={`${user.name} avatar`}
+              />
+            </a>
+
+            <div className="flex flex-col gap-5 ml-10">
+              <a
+                className="group"
+                href={`https://github.com/${user.login}`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <div className="group-hover:underline dark:text-white">
+                  {user.login}
+                </div>
+                <div className="font-bold text-xl text-blue-600">
+                  {user.name}
+                </div>
+              </a>
+
+              {user.bio && (
+                <p className="dark:text-white">
+                  {user.bio}
+                  {/* Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos
+                iure provident aperiam, eaque cupiditate ipsum reiciendis sequi
+                veritatis laborum, aut eligendi nisi magni natus expedita a
+                corporis! Quasi, ducimus fugit. */}
+                </p>
+              )}
+
+              <div className="flex gap-4 dark:text-white">
+                {user.location && (
+                  <div className="flex items-center gap-1">
+                    <LocationIcon className="w-4 h-4 fill-current text-blue-600" />
+                    {user.location}
+                  </div>
+                )}
+                {user.twitter_username && (
+                  <div className="flex items-center gap-1">
+                    <TwitterLogo className="w-4 h-4 fill-current text-blue-600" />
+                    <a
+                      className="no-underline hover:underline hover:text-blue-600"
+                      href={`https://twitter.com/${user.twitter_username}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      @{user.twitter_username}
+                    </a>
+                  </div>
+                )}
+                {user.blog && (
+                  <div className="flex items-center gap-1">
+                    <GlobeIcon className="w-4 h-4 fill-current text-blue-600" />
+                    <a
+                      className="no-underline hover:underline hover:text-blue-600"
+                      href={`https://${user.blog}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {user.blog}
+                    </a>
+                  </div>
+                )}
+                {user.company && (
+                  <div className="flex items-center gap-1">
+                    <BusinessIcon className="w-4 h-4 fill-current text-blue-600" />
+                    {user.company[0] === '@' ? (
+                      <a
+                        className="no-underline hover:underline hover:text-blue-600"
+                        href={`https://github.com/${user.company.substring(1)}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        {user.company}
+                      </a>
+                    ) : (
+                      user.company
+                    )}
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+
+          <div className="flex justify-around text-center">
+            <a
+              className="p-10"
+              href={getRepositoriesUrl(user)}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <div className="font-bold text-gray-700 dark:text-white">
+                {user.public_repos}
+              </div>
+              <div className="uppercase text-gray-600 dark:text-gray-400">
+                Repos
+              </div>
+            </a>
+            <a
+              className="p-10"
+              href={getFollowingUrl(user)}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <div className="font-bold text-gray-700 dark:text-white">
+                {user.following}
+              </div>
+              <div className="uppercase text-gray-600 dark:text-gray-400">
+                Following
+              </div>
+            </a>
+            <a
+              className="p-10"
+              href={getFollowersUrl(user)}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <div className="font-bold text-gray-700 dark:text-white">
+                {user.followers}
+              </div>
+              <div className="uppercase text-gray-600 dark:text-gray-400">
+                Followers
+              </div>
+            </a>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
