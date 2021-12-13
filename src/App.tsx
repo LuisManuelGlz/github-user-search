@@ -1,4 +1,5 @@
 import React, { FormEvent, useEffect, useState } from 'react';
+import normalizeUrl from 'normalize-url';
 import './App.css';
 import { ReactComponent as GitHubLogo } from './assets/icons/logo-github.svg';
 import { ReactComponent as SearchIcon } from './assets/icons/search.svg';
@@ -184,7 +185,7 @@ function App() {
                     <GlobeIcon className="w-4 h-4 fill-current text-blue-600" />
                     <a
                       className="no-underline hover:underline hover:text-blue-600"
-                      href={user.blog}
+                      href={normalizeUrl(user.blog)}
                       target="_blank"
                       rel="noopener noreferrer"
                     >
