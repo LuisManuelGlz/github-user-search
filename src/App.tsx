@@ -78,7 +78,7 @@ function App() {
   }, [darkMode]);
 
   return (
-    <div className="flex flex-col gap-7 items-center h-screen dark:bg-gray-900 transition-colors duration-700">
+    <div className="flex flex-col gap-7 items-center h-screen dark:bg-black transition-colors duration-700">
       <nav className="flex items-center justify-between w-full p-7">
         <div className="flex items-center gap-2">
           <GitHubLogo className="w-10 h-10 fill-current text-black dark:text-white transition-colors duration-700" />
@@ -111,13 +111,16 @@ function App() {
           placeholder="Search GitHub users"
           onChange={onChange}
         />
-        <button className="bg-blue-600 dark:bg-white p-2 rounded-full transition-colors duration-700" type="submit">
+        <button
+          className="bg-blue-600 dark:bg-white p-2 rounded-full transition-colors duration-700"
+          type="submit"
+        >
           <SearchIcon className="w-4 h-4 fill-current text-white dark:text-blue-600 transition-colors duration-700" />
         </button>
       </form>
 
       {user && (
-        <div className="rounded-lg shadow-blue w-max max-w-5xl dark:bg-gray-800 transition-colors duration-700">
+        <div className="rounded-lg shadow-blue w-3/4 dark:bg-gray-900 transition-colors duration-700">
           <div className="flex p-10">
             <a
               href={`https://github.com/${user.login}`}
@@ -150,9 +153,9 @@ function App() {
                 <p className="dark:text-white transition-colors duration-700">
                   {user.bio}
                   {/* Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos
-                iure provident aperiam, eaque cupiditate ipsum reiciendis sequi
-                veritatis laborum, aut eligendi nisi magni natus expedita a
-                corporis! Quasi, ducimus fugit. */}
+                  iure provident aperiam, eaque cupiditate ipsum reiciendis
+                  sequi veritatis laborum, aut eligendi nisi magni natus
+                  expedita a corporis! Quasi, ducimus fugit. */}
                 </p>
               )}
 
@@ -181,7 +184,7 @@ function App() {
                     <GlobeIcon className="w-4 h-4 fill-current text-blue-600" />
                     <a
                       className="no-underline hover:underline hover:text-blue-600"
-                      href={`https://${user.blog}`}
+                      href={user.blog}
                       target="_blank"
                       rel="noopener noreferrer"
                     >
