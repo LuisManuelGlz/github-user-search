@@ -10,6 +10,8 @@ import { ReactComponent as BusinessIcon } from './assets/icons/business.svg';
 import Ballon404Image from './assets/images/ballon404.png';
 import { User } from './types/user';
 import { useGitHubApi } from './hooks/useGitHubApi';
+import Avatar from './components/Avatar';
+import ProfileInfo from './components/ProfileInfo';
 
 function App() {
   const [usernameValue, setUsernameValue] = useState<string>('');
@@ -114,17 +116,7 @@ function App() {
       {user ? (
         <div className="rounded-lg shadow-blue w-3/4 bg-gray-100 dark:bg-gray-800 transition-colors duration-700">
           <div className="flex p-10">
-            <a
-              href={`https://github.com/${user.login}`}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <img
-                className="rounded-full border-4 border-blue-600 w-40 h-40"
-                src={user.avatar_url}
-                alt={`${user.name} avatar`}
-              />
-            </a>
+            <Avatar user={user} />
 
             <div className="flex flex-col gap-5 ml-10">
               <a
@@ -153,53 +145,43 @@ function App() {
 
               <div className="flex flex-wrap gap-4 dark:text-white transition-colors duration-700">
                 {user.location && (
-                  <div className="flex items-center gap-1">
-                    <LocationIcon className="w-4 h-4 fill-current text-blue-600" />
-                    {user.location}
-                  </div>
+                  <ProfileInfo
+                    icon={
+                      <LocationIcon className="w-4 h-4 fill-current text-blue-600" />
+                    }
+                    text={user.location}
+                  />
                 )}
                 {user.twitter_username && (
-                  <div className="flex items-center gap-1">
-                    <TwitterLogo className="w-4 h-4 fill-current text-blue-600" />
-                    <a
-                      className="no-underline hover:underline hover:text-blue-600"
-                      href={`https://twitter.com/${user.twitter_username}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      @{user.twitter_username}
-                    </a>
-                  </div>
+                  <ProfileInfo
+                    icon={
+                      <TwitterLogo className="w-4 h-4 fill-current text-blue-600" />
+                    }
+                    text={`@${user.twitter_username}`}
+                    link={`https://twitter.com/${user.twitter_username}`}
+                  />
                 )}
                 {user.blog && (
-                  <div className="flex items-center gap-1">
-                    <GlobeIcon className="w-4 h-4 fill-current text-blue-600" />
-                    <a
-                      className="no-underline hover:underline hover:text-blue-600"
-                      href={normalizeUrl(user.blog)}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      {user.blog}
-                    </a>
-                  </div>
+                  <ProfileInfo
+                    icon={
+                      <GlobeIcon className="w-4 h-4 fill-current text-blue-600" />
+                    }
+                    text={user.blog}
+                    link={normalizeUrl(user.blog)}
+                  />
                 )}
                 {user.company && (
-                  <div className="flex items-center gap-1">
-                    <BusinessIcon className="w-4 h-4 fill-current text-blue-600" />
-                    {user.company[0] === '@' ? (
-                      <a
-                        className="no-underline hover:underline hover:text-blue-600"
-                        href={`https://github.com/${user.company.substring(1)}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        {user.company}
-                      </a>
-                    ) : (
-                      user.company
-                    )}
-                  </div>
+                  <ProfileInfo
+                    icon={
+                      <BusinessIcon className="w-4 h-4 fill-current text-blue-600" />
+                    }
+                    text={user.company}
+                    link={
+                      user.company[0] === '@'
+                        ? `https://github.com/${user.company.substring(1)}`
+                        : ''
+                    }
+                  />
                 )}
               </div>
             </div>
