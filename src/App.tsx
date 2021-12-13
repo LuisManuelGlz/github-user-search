@@ -7,26 +7,17 @@ import { ReactComponent as LocationIcon } from './assets/icons/location.svg';
 import { ReactComponent as TwitterLogo } from './assets/icons/logo-twitter.svg';
 import { ReactComponent as GlobeIcon } from './assets/icons/globe.svg';
 import { ReactComponent as BusinessIcon } from './assets/icons/business.svg';
+import Ballon404Image from './assets/images/ballon404.png';
 import { User } from './types/user';
+import { useGitHubApi } from './hooks/useGitHubApi';
 
 function App() {
-  const [user, setUser] = useState<User | null>(null);
-  const [username, setUsername] = useState<string>('');
-  const [loading, setLoading] = useState<boolean>(false);
+  const [usernameValue, setUsernameValue] = useState<string>('');
+  const { user, loading, error, setUsername } = useGitHubApi('octocat');
   const [darkMode, setDarkMode] = useState<boolean>(false);
 
   const fetchUserByUsername = async (username: string) => {
-    try {
-      setLoading(true);
-      const response = await fetch(`https://api.github.com/users/${username}`);
-      const user = await response.json();
-      setUser(user);
-      document.title = `${user.name || user.login} - GitHub Search`;
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setLoading(false);
-    }
+    setUsername(username);
   };
 
   const toggleDarkMode = () => {
@@ -40,12 +31,12 @@ function App() {
 
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    await fetchUserByUsername(username);
+    await fetchUserByUsername(usernameValue);
   };
 
   const onChange = (e: FormEvent<HTMLInputElement>) => {
     const { value } = e.currentTarget;
-    setUsername(value);
+    setUsernameValue(value);
   };
 
   const getRepositoriesUrl = (user: User) => {
@@ -120,7 +111,7 @@ function App() {
         </button>
       </form>
 
-      {user && (
+      {user ? (
         <div className="rounded-lg shadow-blue w-3/4 dark:bg-gray-900 transition-colors duration-700">
           <div className="flex p-10">
             <a
@@ -160,7 +151,7 @@ function App() {
                 </p>
               )}
 
-              <div className="flex gap-4 dark:text-white transition-colors duration-700">
+              <div className="flex flex-wrap gap-4 dark:text-white transition-colors duration-700">
                 {user.location && (
                   <div className="flex items-center gap-1">
                     <LocationIcon className="w-4 h-4 fill-current text-blue-600" />
@@ -255,6 +246,13 @@ function App() {
               </div>
             </a>
           </div>
+        </div>
+      ) : (
+        <div className="flex flex-col items-center">
+          <img className="w-1/3" src={Ballon404Image} alt="Ballon 404" />
+          <h3 className="text-3xl text-blue-600 font-light">
+            User couldn't be found
+          </h3>
         </div>
       )}
     </div>
