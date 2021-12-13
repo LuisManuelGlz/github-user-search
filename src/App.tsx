@@ -20,7 +20,7 @@ function App() {
       const response = await fetch(`https://api.github.com/users/${username}`);
       const user = await response.json();
       setUser(user);
-      document.title = `${user.name} - GitHub Search`;
+      document.title = `${user.name || user.login} - GitHub Search`;
     } catch (error) {
       console.error(error);
     } finally {
