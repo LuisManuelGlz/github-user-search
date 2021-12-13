@@ -60,7 +60,7 @@ function App() {
   };
 
   useEffect(() => {
-    fetchUserByUsername('luismanuelglz');
+    fetchUserByUsername('octocat');
   }, []);
 
   useEffect(() => {
