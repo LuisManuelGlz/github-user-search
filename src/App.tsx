@@ -70,7 +70,7 @@ function App() {
   }, [darkMode]);
 
   return (
-    <div className="flex flex-col gap-7 items-center h-screen dark:bg-black transition-colors duration-700">
+    <div className="flex flex-col gap-7 items-center h-screen dark:bg-gray-900 transition-colors duration-700">
       <nav className="flex items-center justify-between w-full p-7">
         <div className="flex items-center gap-2">
           <GitHubLogo className="w-10 h-10 fill-current text-black dark:text-white transition-colors duration-700" />
@@ -112,7 +112,7 @@ function App() {
       </form>
 
       {user ? (
-        <div className="rounded-lg shadow-blue w-3/4 dark:bg-gray-900 transition-colors duration-700">
+        <div className="rounded-lg shadow-blue w-3/4 bg-gray-100 dark:bg-gray-800 transition-colors duration-700">
           <div className="flex p-10">
             <a
               href={`https://github.com/${user.login}`}
@@ -248,12 +248,14 @@ function App() {
           </div>
         </div>
       ) : (
-        <div className="flex flex-col items-center">
-          <img className="w-1/3" src={Ballon404Image} alt="Ballon 404" />
-          <h3 className="text-3xl text-blue-600 font-light">
-            User couldn't be found
-          </h3>
-        </div>
+        user === null && (
+          <div className="flex flex-col items-center">
+            <img className="w-1/3" src={Ballon404Image} alt="Ballon 404" />
+            <h3 className="text-3xl text-blue-600 font-light">
+              User couldn't be found
+            </h3>
+          </div>
+        )
       )}
     </div>
   );
