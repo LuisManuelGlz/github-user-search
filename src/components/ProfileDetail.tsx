@@ -6,7 +6,7 @@ type Props = {
   link?: string;
 };
 
-const ProfileInfo = ({ icon, text, link }: Props) => {
+const ProfileDetail = ({ icon, text, link }: Props) => {
   return (
     <div className="flex items-center gap-1">
       {icon}
@@ -26,4 +26,4 @@ const ProfileInfo = ({ icon, text, link }: Props) => {
   );
 };
 
-export default ProfileInfo;
+export default ProfileDetail;

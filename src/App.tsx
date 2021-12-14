@@ -11,11 +11,14 @@ import Ballon404Image from './assets/images/ballon404.png';
 import { User } from './types/user';
 import { useGitHubApi } from './hooks/useGitHubApi';
 import Avatar from './components/Avatar';
-import ProfileInfo from './components/ProfileInfo';
+import ProfileDetail from './components/ProfileDetail';
+import ProfileName from './components/ProfileName';
+import ProfileFooterItem from './components/ProfileFooterItem';
+import ProfileBio from './components/ProfileBio';
 
 function App() {
   const [usernameValue, setUsernameValue] = useState<string>('');
-  const { user, loading, error, setUsername } = useGitHubApi('octocat');
+  const { user, loading, setUsername } = useGitHubApi('octocat');
   const [darkMode, setDarkMode] = useState<boolean>(false);
 
   const fetchUserByUsername = async (username: string) => {
@@ -119,33 +122,13 @@ function App() {
             <Avatar user={user} />
 
             <div className="flex flex-col gap-5 ml-10">
-              <a
-                className="group"
-                href={`https://github.com/${user.login}`}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <div className="group-hover:underline dark:text-white transition-colors duration-700">
-                  {user.login}
-                </div>
-                <div className="font-bold text-xl text-blue-600">
-                  {user.name}
-                </div>
-              </a>
+              <ProfileName user={user} />
 
-              {user.bio && (
-                <p className="dark:text-white transition-colors duration-700">
-                  {user.bio}
-                  {/* Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos
-                  iure provident aperiam, eaque cupiditate ipsum reiciendis
-                  sequi veritatis laborum, aut eligendi nisi magni natus
-                  expedita a corporis! Quasi, ducimus fugit. */}
-                </p>
-              )}
+              {user.bio && <ProfileBio bio={user.bio} />}
 
               <div className="flex flex-wrap gap-4 dark:text-white transition-colors duration-700">
                 {user.location && (
-                  <ProfileInfo
+                  <ProfileDetail
                     icon={
                       <LocationIcon className="w-4 h-4 fill-current text-blue-600" />
                     }
@@ -153,7 +136,7 @@ function App() {
                   />
                 )}
                 {user.twitter_username && (
-                  <ProfileInfo
+                  <ProfileDetail
                     icon={
                       <TwitterLogo className="w-4 h-4 fill-current text-blue-600" />
                     }
@@ -162,7 +145,7 @@ function App() {
                   />
                 )}
                 {user.blog && (
-                  <ProfileInfo
+                  <ProfileDetail
                     icon={
                       <GlobeIcon className="w-4 h-4 fill-current text-blue-600" />
                     }
@@ -171,7 +154,7 @@ function App() {
                   />
                 )}
                 {user.company && (
-                  <ProfileInfo
+                  <ProfileDetail
                     icon={
                       <BusinessIcon className="w-4 h-4 fill-current text-blue-600" />
                     }
@@ -188,45 +171,21 @@ function App() {
           </div>
 
           <div className="flex justify-around text-center">
-            <a
-              className="p-10"
-              href={getRepositoriesUrl(user)}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <div className="font-bold text-gray-700 dark:text-white transition-colors duration-700">
-                {user.public_repos}
-              </div>
-              <div className="uppercase text-gray-600 dark:text-gray-400 transition-colors duration-700">
-                Repos
-              </div>
-            </a>
-            <a
-              className="p-10"
-              href={getFollowingUrl(user)}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <div className="font-bold text-gray-700 dark:text-white transition-colors duration-700">
-                {user.following}
-              </div>
-              <div className="uppercase text-gray-600 dark:text-gray-400 transition-colors duration-700">
-                Following
-              </div>
-            </a>
-            <a
-              className="p-10"
-              href={getFollowersUrl(user)}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <div className="font-bold text-gray-700 dark:text-white transition-colors duration-700">
-                {user.followers}
-              </div>
-              <div className="uppercase text-gray-600 dark:text-gray-400 transition-colors duration-700">
-                Followers
-              </div>
-            </a>
+            <ProfileFooterItem
+              title="Repos"
+              text={user.public_repos.toString()}
+              link={getRepositoriesUrl(user)}
+            />
+            <ProfileFooterItem
+              title="Following"
+              text={user.following.toString()}
+              link={getFollowingUrl(user)}
+            />
+            <ProfileFooterItem
+              title="followers"
+              text={user.followers.toString()}
+              link={getFollowersUrl(user)}
+            />
           </div>
         </div>
       ) : (
