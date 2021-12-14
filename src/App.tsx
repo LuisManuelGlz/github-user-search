@@ -3,6 +3,7 @@ import normalizeUrl from 'normalize-url';
 import './App.css';
 import { ReactComponent as GitHubLogo } from './assets/icons/logo-github.svg';
 import { ReactComponent as SearchIcon } from './assets/icons/search.svg';
+import { ReactComponent as LoaderIcon } from './assets/icons/loader.svg';
 import { ReactComponent as LocationIcon } from './assets/icons/location.svg';
 import { ReactComponent as TwitterLogo } from './assets/icons/logo-twitter.svg';
 import { ReactComponent as GlobeIcon } from './assets/icons/globe.svg';
@@ -112,7 +113,11 @@ function App() {
           className="bg-blue-600 dark:bg-white p-2 rounded-full transition-colors duration-700"
           type="submit"
         >
-          <SearchIcon className="w-4 h-4 fill-current text-white dark:text-blue-600 transition-colors duration-700" />
+          {loading ? (
+            <LoaderIcon className="animate-spin w-4 h-4 fill-current text-white dark:text-blue-600 transition-colors duration-700" />
+          ) : (
+            <SearchIcon className="w-4 h-4 fill-current text-white dark:text-blue-600 transition-colors duration-700" />
+          )}
         </button>
       </form>
 
