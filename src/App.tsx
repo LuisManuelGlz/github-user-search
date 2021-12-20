@@ -131,7 +131,7 @@ function App() {
 
               {user.bio && <ProfileBio bio={user.bio} />}
 
-              <div className="flex flex-wrap gap-4 lg:justify-center dark:text-white transition-colors duration-700">
+              <div className="flex flex-wrap gap-4 justify-around md:justify-start dark:text-white transition-colors duration-700">
                 {user.location && (
                   <ProfileDetail
                     icon={
