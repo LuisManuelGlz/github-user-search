@@ -31,9 +31,7 @@ export const useGitHubApi = (initialUsername: string) => {
       }
     };
 
-    setTimeout(() => {
-      fetchUser();
-    }, 10000);
+    fetchUser();
   }, [username]);
 
   return { user, loading, error, setUsername };

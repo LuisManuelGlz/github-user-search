@@ -8,7 +8,7 @@ type Props = {
 
 const ProfileFooterItem = ({ title, text, link }: Props) => {
   return (
-    <a className="p-10" href={link} target="_blank" rel="noopener noreferrer">
+    <a className="sm:p-10" href={link} target="_blank" rel="noopener noreferrer">
       <div className="font-bold text-gray-700 dark:text-white transition-colors duration-700">
         {text}
       </div>

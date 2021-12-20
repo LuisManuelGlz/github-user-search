@@ -76,7 +76,7 @@ function App() {
   }, [darkMode]);
 
   return (
-    <div className="flex flex-col gap-7 items-center h-screen dark:bg-gray-900 transition-colors duration-700">
+    <div className="flex flex-col gap-7 items-center h-screen transition-colors duration-700">
       <nav className="flex items-center justify-between w-full p-7">
         <div className="flex items-center gap-2">
           <GitHubLogo className="w-10 h-10 fill-current text-black dark:text-white transition-colors duration-700" />
@@ -122,16 +122,16 @@ function App() {
       </form>
 
       {user ? (
-        <div className="rounded-lg shadow-blue w-3/4 bg-gray-100 dark:bg-gray-800 transition-colors duration-700">
-          <div className="flex p-10">
+        <div className="md:rounded-lg md:shadow-blue w-full md:w-5/6 lg:w-3/4 h-full lg:h-auto bg-gray-100 dark:bg-gray-800 transition-colors duration-700">
+          <div className="flex flex-col lg:flex-row items-center lg:items-start p-10">
             <Avatar user={user} />
 
-            <div className="flex flex-col gap-5 ml-10">
+            <div className="flex flex-col text-center lg:text-left gap-5 lg:ml-10">
               <ProfileName user={user} />
 
               {user.bio && <ProfileBio bio={user.bio} />}
 
-              <div className="flex flex-wrap gap-4 dark:text-white transition-colors duration-700">
+              <div className="flex flex-wrap gap-4 lg:justify-center dark:text-white transition-colors duration-700">
                 {user.location && (
                   <ProfileDetail
                     icon={
