@@ -1,9 +1,6 @@
 import React, { FormEvent, useEffect, useState } from 'react';
 import normalizeUrl from 'normalize-url';
 import './App.css';
-import { ReactComponent as GitHubLogo } from './assets/icons/logo-github.svg';
-import { ReactComponent as SearchIcon } from './assets/icons/search.svg';
-import { ReactComponent as LoaderIcon } from './assets/icons/loader.svg';
 import { ReactComponent as LocationIcon } from './assets/icons/location.svg';
 import { ReactComponent as TwitterLogo } from './assets/icons/logo-twitter.svg';
 import { ReactComponent as GlobeIcon } from './assets/icons/globe.svg';
@@ -16,23 +13,15 @@ import ProfileDetail from './components/ProfileDetail';
 import ProfileName from './components/ProfileName';
 import ProfileFooterItem from './components/ProfileFooterItem';
 import ProfileBio from './components/ProfileBio';
+import Navigator from './components/Navigator';
+import SearchInput from './components/SearchInput';
 
 function App() {
   const [usernameValue, setUsernameValue] = useState<string>('');
   const { user, loading, setUsername } = useGitHubApi('octocat');
-  const [darkMode, setDarkMode] = useState<boolean>(false);
 
   const fetchUserByUsername = async (username: string) => {
     setUsername(username);
-  };
-
-  const toggleDarkMode = () => {
-    setDarkMode(!darkMode);
-    if (darkMode) {
-      localStorage.theme = 'light';
-    } else {
-      localStorage.theme = 'dark';
-    }
   };
 
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -61,65 +50,11 @@ function App() {
     fetchUserByUsername('octocat');
   }, []);
 
-  useEffect(() => {
-    if (
-      localStorage.theme === 'dark' ||
-      (!('theme' in localStorage) &&
-        window.matchMedia('(prefers-color-scheme: dark)').matches)
-    ) {
-      document.documentElement.classList.add('dark');
-      setDarkMode(true);
-    } else {
-      document.documentElement.classList.remove('dark');
-      setDarkMode(false);
-    }
-  }, [darkMode]);
-
   return (
     <div className="flex flex-col gap-7 items-center h-screen transition-colors duration-700">
-      <nav className="flex items-center justify-between w-full p-7">
-        <div className="flex items-center gap-2">
-          <GitHubLogo className="w-10 h-10 fill-current text-black dark:text-white transition-colors duration-700" />
-          <div className="text-2xl font-light dark:text-white transition-colors duration-700">
-            GitHub Search
-          </div>
-        </div>
+      <Navigator />
 
-        <div>
-          <label htmlFor="checkbox">
-            <input
-              type="checkbox"
-              id="checkbox"
-              onChange={toggleDarkMode}
-              checked={darkMode}
-            />
-          </label>
-        </div>
-      </nav>
-
-      <form
-        className="flex items-center bg-white dark:bg-blue-600 border-2 dark:border-0 border-blue-600 pl-3 px-1 py-1 rounded-full shadow-xl transition-colors duration-700"
-        onSubmit={onSubmit}
-      >
-        <input
-          className="bg-transparent text-blue-600 dark:text-white placeholder-gray-500 dark:placeholder-gray-50 outline-none transition-colors duration-700"
-          autoFocus
-          type="search"
-          required
-          placeholder="Search GitHub users"
-          onChange={onChange}
-        />
-        <button
-          className="bg-blue-600 dark:bg-white p-2 rounded-full transition-colors duration-700"
-          type="submit"
-        >
-          {loading ? (
-            <LoaderIcon className="animate-spin w-4 h-4 fill-current text-white dark:text-blue-600 transition-colors duration-700" />
-          ) : (
-            <SearchIcon className="w-4 h-4 fill-current text-white dark:text-blue-600 transition-colors duration-700" />
-          )}
-        </button>
-      </form>
+      <SearchInput onSubmit={onSubmit} onChange={onChange} loading={loading} />
 
       {user ? (
         <div className="md:rounded-lg md:shadow-blue w-full md:w-5/6 lg:w-3/4 h-full lg:h-auto bg-gray-100 dark:bg-gray-800 transition-colors duration-700">

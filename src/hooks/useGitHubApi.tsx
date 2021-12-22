@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { User } from '../types/user';
 
 export const useGitHubApi = (initialUsername: string) => {
