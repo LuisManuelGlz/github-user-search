@@ -54,7 +54,12 @@ function App() {
     <div className="flex flex-col gap-7 items-center h-screen transition-colors duration-700">
       <Navigator />
 
-      <SearchInput onSubmit={onSubmit} onChange={onChange} loading={loading} />
+      <SearchInput
+        onSubmit={onSubmit}
+        onChange={onChange}
+        loading={loading}
+        value={usernameValue}
+      />
 
       {user ? (
         <div className="md:rounded-lg md:shadow-blue w-full md:w-5/6 lg:w-3/4 h-full lg:h-auto bg-gray-100 dark:bg-gray-800 transition-colors duration-700">

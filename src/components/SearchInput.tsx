@@ -6,9 +6,10 @@ type Props = {
   onSubmit: (e: FormEvent<HTMLFormElement>) => void;
   onChange: (e: FormEvent<HTMLInputElement>) => void;
   loading: boolean;
+  value: string;
 };
 
-const SearchInput = ({ onSubmit, onChange, loading }: Props) => {
+const SearchInput = ({ onSubmit, onChange, loading, value }: Props) => {
   return (
     <form
       className="flex items-center bg-white dark:bg-blue-600 border-2 dark:border-0 border-blue-600 pl-3 px-1 py-1 rounded-full shadow-xl transition-colors duration-700"
@@ -21,6 +22,7 @@ const SearchInput = ({ onSubmit, onChange, loading }: Props) => {
         required
         placeholder="Search GitHub users"
         onChange={onChange}
+        value={value}
       />
       <button
         className="bg-blue-600 dark:bg-white p-2 rounded-full transition-colors duration-700"

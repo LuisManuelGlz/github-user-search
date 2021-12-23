@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import { ReactComponent as SunIcon } from '../assets/icons/sun.svg';
+import { ReactComponent as MoonIcon } from '../assets/icons/moon.svg';
 
 const ToggleDarkMode = () => {
   const [darkMode, setDarkMode] = useState<boolean>(false);
@@ -37,7 +39,13 @@ const ToggleDarkMode = () => {
           checked={darkMode}
         />
         <div className="block bg-gray-600 w-14 h-8 rounded-full" />
-        <div className="dot absolute left-1 top-1 bg-white w-6 h-6 rounded-full transition" />
+        <div className="dot absolute left-1 top-1 flex justify-center items-center bg-white w-6 h-6 rounded-full transition">
+          {darkMode ? (
+            <MoonIcon className="w-4 h-4 fill-current text-gray-600 dark:text-gray-200 transition-colors duration-700" />
+          ) : (
+            <SunIcon className="w-4 h-4 fill-current text-yellow-300 dark:text-gray-200 transition-colors duration-700" />
+          )}
+        </div>
       </div>
     </label>
   );
